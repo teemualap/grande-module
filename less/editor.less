@@ -1,0 +1,80 @@
+.grande-editor {
+  outline-style: none;
+  padding: 20px 20px;
+  .border-radius(4px);
+  border: 1px solid @gray-light;
+  font-size: 14px;
+
+  h1,p,blockquote,ol,ul {
+    margin-bottom: 15px;
+  }
+
+  h1 {
+    font-size: 22px;
+    line-height: 24px;
+    font-weight: bold;
+  }
+
+  h2 {
+    font-size: 16px;
+    line-height: 20px;
+    font-weight: bold;
+  }
+
+  blockquote {
+    font-weight: 400;
+    font-style: italic;
+    border-left: 6px solid @blockquoteBorderColor;
+    padding-left: 20px;
+    margin-left: -26px;
+  }
+
+  a {
+    text-decoration: underline;
+    color: @editorLinkColor;
+  }
+
+  ol, ul {
+    list-style: none;
+    list-style-image: none;
+    margin-left: 0;
+    margin-top: 0;
+    padding-left: 0;
+
+    li:before {
+      width: 30px;
+      display: inline-block;
+    }
+  }
+
+  ol {
+    counter-reset: post;
+
+    li:before {
+      font-weight: bold;
+      counter-increment: post;
+      content: counter(post) ".";
+    }
+  }
+
+  ul {
+    li:before {
+      font-family: "medium-icons";
+      content: "\e028";
+      text-decoration: none;
+      font-size: 14px;
+    }
+  }
+
+  hr {
+    display: block;
+    width: @hrWidth;
+    margin: 30px auto 20px auto;
+    border-top: 1px solid @hrBorderTopColor;
+    border-bottom: 1px solid @hrBorderBottomColor;
+    -webkit-animation: show-hr 0.4s ease-in-out;
+    -moz-animation: show-hr 0.4s ease-in-out;
+    animation: show-hr 0.4s ease-in-out;
+  }
+
+}

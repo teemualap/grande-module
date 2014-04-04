@@ -1,0 +1,28 @@
+{
+  "name": "grande-module",
+  "version": "0.0.0",
+  "description": "An upgraded Grande.js to be used as a CommonJS module.",
+  "main": "grande-module.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/teemualap/grande-module.git"
+  },
+  "keywords": [
+    "wysiwyg",
+    "commonjs"
+  ],
+  "author": "Teemu Alapoikela",
+  "license": "MIT",
+  "devDependencies": {
+    "gulp-livereload": "^1.2.0",
+    "gulp-uglify": "^0.2.1",
+    "gulp-less": "^1.2.3",
+    "gulp": "^3.6.0",
+    "gulp-rename": "^1.2.0",
+    "browserify": "^3.38.0",
+    "vinyl-source-stream": "^0.1.1"
+  }
+}
