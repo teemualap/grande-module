@@ -9,7 +9,7 @@ Heading tags from h1 to h5 are supported but you also have the ability to omit a
 
 Usage
 -----
-See examples folder
+See the example folder.
 
 License
 -------
