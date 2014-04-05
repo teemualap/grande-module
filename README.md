@@ -7,6 +7,9 @@ This build includes many bug fixes but also alters the way grande works quite a 
 
 Heading tags from h1 to h5 are supported but you also have the ability to omit any tags from the menu via config.
 
+Usage
+-----
+See examples folder
 
 License
 -------
