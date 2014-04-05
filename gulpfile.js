@@ -16,6 +16,19 @@ gulp.task('less', function(){
 
 });
 
+gulp.task('js', function(){
+
+  gulp.src('js/index.js')
+    .pipe(uglify())
+    .pipe(rename('grande-module.min.js'))
+    .pipe(gulp.dest('dist/js'));
+
+  gulp.src('js/index.js')
+    .pipe(rename('grande-module.js'))
+    .pipe(gulp.dest('dist/js'));
+
+});
+
 gulp.task('fonts', function(){
 
   gulp.src('fonts/**/*.woff')
