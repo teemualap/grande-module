@@ -25,6 +25,8 @@ function Grande() {
 
         if (omitTags) {
           omittedTags = omitTags.split(',');
+        } else {
+          omittedTags.length = 0;
         }
 
         article = bindableElement;
@@ -245,20 +247,32 @@ function Grande() {
     iterateTextMenuButtons(function(node) {
       className = node.className;
 
-      for (var tag in tagClassMap) {
-        tagClass = tagClassMap[tag];
-        reTag = new RegExp(tagClass);
+      //disable bold in headings to get rid of inline styling
+      if (/bold/.test(className) && hasParentHeadingTag(focusNode)) {
+        node.className = "bold locked";
+      } 
 
-        if (reTag.test(className)) {
-          if (hasParentWithTag(focusNode, tag)) {
-            node.className = tagClass + " active";
-          } else {
-            node.className = tagClass;
+      else {
+
+        for (var tag in tagClassMap) {
+          tagClass = tagClassMap[tag];
+          reTag = new RegExp(tagClass);
+
+          if (reTag.test(className)) {
+
+            if (hasParentWithTag(focusNode, tag)) {
+              node.className = tagClass + " active";
+            } 
+            else {
+              node.className = tagClass;
+            }
+
+            break;
           }
 
-          break;
         }
       }
+      
     });
   }
 
@@ -513,6 +527,11 @@ function Grande() {
         tagClass,
         reTag;
 
+    //do nothing if locked
+    if (/locked/.test(className)) {
+      return;
+    }
+
     for (var tag in tagClassMap) {
       tagClass = tagClassMap[tag];
       reTag = new RegExp(tagClass);
@@ -520,7 +539,8 @@ function Grande() {
       if (reTag.test(className)) {
         switch(tag) {
           case "b":
-            if (selNode && !hasParentWithTag(selNode, "h1") && !hasParentWithTag(selNode, "h2")) {
+            //stop inline styling in headings (<span style="font-weight:normal">)
+            if (selNode && !hasParentHeadingTag(selNode)) {
               document.execCommand(tagClass, false);
             }
             return;
@@ -582,13 +602,16 @@ function Grande() {
 
     //heading tags
     if (isHeadingTag(tag)) {
-      //strip bold and italic if they wrappin' selection
+      
       var anchor = window.getSelection().anchorNode;
+      
+      //strip bold and italic if they wrappin' selection
       if (anchor.parentNode.nodeName === "B") {
         document.execCommand("bold");
       } else if (anchor.parentNode.nodeName === "I") {
         document.execCommand("italic");
       }
+      
       //headings in lists
       if (hasParentWithTag(getFocusNode(),'li')) {
         document.execCommand("formatBlock",false,tag);
@@ -687,6 +710,18 @@ function Grande() {
 
   function hasParentWithTag(node, nodeType) {
     return !!getParentWithTag(node, nodeType);
+  }
+
+  function hasParentHeadingTag(node) {
+    
+    var hasParentHeading =  !!getParentWithTag(node, 'h1') ||
+                            !!getParentWithTag(node, 'h2') ||
+                            !!getParentWithTag(node, 'h3') ||
+                            !!getParentWithTag(node, 'h4') ||
+                            !!getParentWithTag(node, 'h5');
+
+    return hasParentHeading;
+
   }
 
   function isHeadingTag(tag) {
