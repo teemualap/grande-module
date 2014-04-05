@@ -1,9 +1,38 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+// normally you would just 'npm install grande-module' and
+// require('grande-module')
 var grande = require('../js/index.js');
 
 var article = document.createElement('article');
-grande.bind(article);
+
+// provide omitted tags as a comma separated string
+grande.bind(article,null,"h3,h4,h5");
 document.body.appendChild(article);
+
+var buttons = document.createElement('div');
+buttons.className = 'example-buttons';
+
+var rebindBtn = document.createElement('button');
+rebindBtn.textContent = "Rebind";
+rebindBtn.disabled = true;
+buttons.appendChild(rebindBtn);
+rebindBtn.addEventListener('click',function(){
+	//this time do not omit any tags
+	grande.bind(article);
+	rebindBtn.disabled = true;
+	disposeBtn.disabled = false;
+});
+
+var disposeBtn = document.createElement('button');
+disposeBtn.textContent = "Dispose";
+buttons.appendChild(disposeBtn);
+disposeBtn.addEventListener('click',function(){
+	grande.dispose();
+	disposeBtn.disabled = true;
+	rebindBtn.disabled = false;
+});
+
+document.body.appendChild(buttons);
 },{"../js/index.js":2}],2:[function(require,module,exports){
 function Grande() {
 
@@ -32,6 +61,8 @@ function Grande() {
 
         if (omitTags) {
           omittedTags = omitTags.split(',');
+        } else {
+          omittedTags.length = 0;
         }
 
         article = bindableElement;
@@ -252,20 +283,34 @@ function Grande() {
     iterateTextMenuButtons(function(node) {
       className = node.className;
 
-      for (var tag in tagClassMap) {
-        tagClass = tagClassMap[tag];
-        reTag = new RegExp(tagClass);
 
-        if (reTag.test(className)) {
-          if (hasParentWithTag(focusNode, tag)) {
-            node.className = tagClass + " active";
-          } else {
-            node.className = tagClass;
+      console.log(hasParentHeadingTag(focusNode));
+      //disable bold in headings to get rid of inline styling
+      if (/bold/.test(className) && hasParentHeadingTag(focusNode)) {
+        node.className = "bold locked";
+      } 
+
+      else {
+
+        for (var tag in tagClassMap) {
+          tagClass = tagClassMap[tag];
+          reTag = new RegExp(tagClass);
+
+          if (reTag.test(className)) {
+
+            if (hasParentWithTag(focusNode, tag)) {
+              node.className = tagClass + " active";
+            } 
+            else {
+              node.className = tagClass;
+            }
+
+            break;
           }
 
-          break;
         }
       }
+      
     });
   }
 
@@ -520,6 +565,11 @@ function Grande() {
         tagClass,
         reTag;
 
+    //do nothing if locked
+    if (/locked/.test(className)) {
+      return;
+    }
+
     for (var tag in tagClassMap) {
       tagClass = tagClassMap[tag];
       reTag = new RegExp(tagClass);
@@ -527,7 +577,8 @@ function Grande() {
       if (reTag.test(className)) {
         switch(tag) {
           case "b":
-            if (selNode && !hasParentWithTag(selNode, "h1") && !hasParentWithTag(selNode, "h2")) {
+            //stop inline styling in headings (<span style="font-weight:normal">)
+            if (selNode && !hasParentHeadingTag(selNode)) {
               document.execCommand(tagClass, false);
             }
             return;
@@ -589,13 +640,16 @@ function Grande() {
 
     //heading tags
     if (isHeadingTag(tag)) {
-      //strip bold and italic if they wrappin' selection
+      
       var anchor = window.getSelection().anchorNode;
+      
+      //strip bold and italic if they wrappin' selection
       if (anchor.parentNode.nodeName === "B") {
         document.execCommand("bold");
       } else if (anchor.parentNode.nodeName === "I") {
         document.execCommand("italic");
       }
+      
       //headings in lists
       if (hasParentWithTag(getFocusNode(),'li')) {
         document.execCommand("formatBlock",false,tag);
@@ -694,6 +748,18 @@ function Grande() {
 
   function hasParentWithTag(node, nodeType) {
     return !!getParentWithTag(node, nodeType);
+  }
+
+  function hasParentHeadingTag(node) {
+    
+    var hasParentHeading =  !!getParentWithTag(node, 'h1') ||
+                            !!getParentWithTag(node, 'h2') ||
+                            !!getParentWithTag(node, 'h3') ||
+                            !!getParentWithTag(node, 'h4') ||
+                            !!getParentWithTag(node, 'h5');
+
+    return hasParentHeading;
+
   }
 
   function isHeadingTag(tag) {
