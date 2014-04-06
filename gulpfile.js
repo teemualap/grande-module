@@ -1,6 +1,5 @@
 var gulp = require('gulp'),
     less = require('gulp-less'),
-    livereload = require('gulp-livereload'),
     uglify = require('gulp-uglify'),
     browserify = require('browserify'),
     source = require('vinyl-source-stream'),
@@ -9,21 +8,21 @@ var gulp = require('gulp'),
 
 gulp.task('less', function(){
 
-  gulp.src('less/index.less')
+  gulp.src('src/less/index.less')
       .pipe(less({compress:true}))
-      .pipe(rename('grande-module.css'))
+      .pipe(rename('grande-module-.css'))
       .pipe(gulp.dest('dist/css'));
 
 });
 
 gulp.task('js', function(){
 
-  gulp.src('js/index.js')
+  gulp.src('src/js/index.js')
     .pipe(uglify())
     .pipe(rename('grande-module.min.js'))
     .pipe(gulp.dest('dist/js'));
 
-  gulp.src('js/index.js')
+  gulp.src('src/js/index.js')
     .pipe(rename('grande-module.js'))
     .pipe(gulp.dest('dist/js'));
 
@@ -31,7 +30,7 @@ gulp.task('js', function(){
 
 gulp.task('fonts', function(){
 
-  gulp.src('fonts/**/*.woff')
+  gulp.src('src/fonts/**/*.woff')
       .pipe(gulp.dest('dist/fonts'));
 
 });
@@ -42,19 +41,5 @@ gulp.task('example', function(){
     .bundle()
     .pipe(source('example-bundle.js'))
     .pipe(gulp.dest('example'));
-
-});
-
-gulp.task('watch', function() {
-
-  var server = livereload();
-
-  gulp.watch('js/**/*.js',['js']);
-  gulp.watch('less/**/*.less',['less']);
-
-  gulp.watch('dist/**')
-      .on('change', function(file) {
-        server.changed(file.path);
-      });
 
 });
