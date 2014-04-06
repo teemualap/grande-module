@@ -13,17 +13,17 @@ Usage
 
 1. Install grande-module with npm:
 	
-     npm install grande-module
+          npm install grande-module
 
 2. Include css and fonts from the dist folder.
 
 3. Use it:
 	
-	 var grande = require('grande-module');
+	    var grande = require('grande-module');
 
-	 var article = document.createElement('article');
-	 grande.bind(article);
-	 document.body.appendChild(article);
+	    var article = document.createElement('article');
+	    grande.bind(article);
+	    document.body.appendChild(article);
 
 
 License
