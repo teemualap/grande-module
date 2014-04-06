@@ -1,6 +1,6 @@
 // normally you would just 'npm install grande-module' and
 // require('grande-module')
-var grande = require('../js/index.js');
+var grande = require('../src/js/grande-module.js');
 
 var article = document.createElement('article');
 

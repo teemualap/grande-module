@@ -1,6 +1,6 @@
 {
   "name": "grande-module",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "An upgraded Grande.js to be used as a CommonJS module.",
   "main": "dist/js/grande-module.js",
   "repository": {
@@ -15,7 +15,6 @@
   "author": "Teemu Alapoikela",
   "license": "MIT",
   "devDependencies": {
-    "gulp-uglify": "^0.2.1",
     "gulp-less": "^1.2.3",
     "gulp": "^3.6.0",
     "gulp-rename": "^1.2.0",
