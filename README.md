@@ -7,9 +7,24 @@ This build includes many bug fixes but also alters the way grande works quite a 
 
 Heading tags from h1 to h5 are supported but you also have the ability to omit any tags from the menu via config.
 
+
 Usage
 -----
-See the example folder.
+
+1. Install grande-module with npm:
+	
+     npm install grande-module
+
+2. Include css and fonts from the dist folder.
+
+3. Use it:
+	
+	 var grande = require('grande-module');
+
+	 var article = document.createElement('article');
+	 grande.bind(article);
+	 document.body.appendChild(article);
+
 
 License
 -------
