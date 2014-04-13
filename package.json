@@ -1,6 +1,6 @@
 {
   "name": "grande-module",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "An upgraded Grande.js to be used as a CommonJS module.",
   "main": "dist/js/grande-module.js",
   "repository": {
@@ -10,7 +10,8 @@
   "keywords": [
     "wysiwyg",
     "commonjs",
-    "browserify"
+    "browserify",
+    "medium"
   ],
   "author": "Teemu Alapoikela",
   "license": "MIT",
